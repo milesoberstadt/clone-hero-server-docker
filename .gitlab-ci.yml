@@ -11,9 +11,7 @@ stages:
 build:
     stage: build
     script:
-        - "VERSION=$(docker build -t \"corysanin/clone-hero-server:latest\" . | grep \"Game Version:\")"
-        - echo "$VERSION"
-        - "VERSION=$(echo \"$VERSION\" | awk \"s/Game Version: //\")"
+        - "VERSION=$(docker build -t \"corysanin/clone-hero-server:latest\" . | grep \"Game Version:\" | sed \"s/Game Version: //\"")
         - docker build -t "corysanin/clone-hero-server:$VERSION" .
         - docker push "corysanin/clone-hero-server:$VERSION"
         - docker push "corysanin/clone-hero-server:latest"
