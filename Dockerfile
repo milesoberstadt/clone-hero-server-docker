@@ -21,13 +21,13 @@ RUN apt-get update \
  && apt-get install --no-install-recommends -y ca-certificates libicu66 \
  && useradd -m clonehero
 
-WORKDIR /home/clonehero/server
+WORKDIR /usr/src
 COPY --from=build-env /clonehero .
 RUN mkdir config \
- && chown -R 1000 .
+ && chown -R 1000 ./config
 USER clonehero
 
-WORKDIR /home/clonehero/server/config
+WORKDIR /usr/src/config
 RUN ../Server & serverpid=$! \
  && sleep 3 \
  && kill "$serverpid" \
