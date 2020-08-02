@@ -13,5 +13,6 @@ build:
     script:
         - "VERSION=$(docker build -t \"corysanin/clone-hero-server:latest\" . | grep \"Game Version:\" | sed \"s/Game Version: //\")"
         - docker build -t "corysanin/clone-hero-server:$VERSION" .
+        - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
         - docker push "corysanin/clone-hero-server:$VERSION"
         - docker push "corysanin/clone-hero-server:latest"
