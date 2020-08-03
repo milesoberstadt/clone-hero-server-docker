@@ -11,8 +11,7 @@ stages:
 build:
     stage: build
     script:
-        - "VERSION=$(docker build -t \"corysanin/clone-hero-server:latest\" . | grep \"Game Version:\" | sed \"s/Game Version: //\")"
+        - "VERSION=$(docker build --build-arg \"BRANCH=$BRANCH\" -t \"corysanin/clone-hero-server:latest\" . | grep \"Game Version:\" | sed \"s/Game Version: //\")"
+        - if [ "$BRANCH" == "test" ]; then VERSION="$BRANCH-$VERSION"; fi
         - docker build -t "corysanin/clone-hero-server:$VERSION" .
-        - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
-        - docker push "corysanin/clone-hero-server:$VERSION"
-        - docker push "corysanin/clone-hero-server:latest"
+        - if [ ! -z ${DOCKER_PASSWORD+x} ]; then echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin; docker push "corysanin/clone-hero-server:$VERSION"; docker push "corysanin/clone-hero-server:latest"; fi
