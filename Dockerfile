@@ -12,6 +12,7 @@ RUN chversion=$(curl -s "https://dl$BRANCH.b-cdn.net/linux-index.json" | jq -r .
  && rm ./chserver.zip \
  && mv ./ChStandaloneServer-* ./chserver \
  && mv ./chserver/linux-x64 ./chserver/linux-x86_64 \
+ && mv ./chserver/linux-arm64 ./chserver/linux-aarch64 \
  && mv ./chserver/linux-$(arch)/* . \
  && rm -rf ./chserver \
  && chmod +x ./Server \
