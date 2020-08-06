@@ -6,13 +6,15 @@ RUN apt-get update \
 
 WORKDIR /clonehero
 ARG BRANCH=test
-RUN chversion=$(curl -s "https://dl$BRANCH.b-cdn.net/linux-index.json" | jq -r .[0].version | sed "s/v0/v/") \
- && wget -O chserver.zip https://dl.clonehero.net/chserver/ChStandaloneServer-$chversion.zip \
+ARG VERSION
+RUN if [ -z ${VERSION+x} ]; then VERSION=$(curl -s "https://dl$BRANCH.b-cdn.net/linux-index.json" | jq -r .[0].version | sed "s/v0/v/"); fi \
+ && wget -O chserver.zip https://dl.clonehero.net/chserver/ChStandaloneServer-$VERSION.zip \
  && unzip chserver.zip \
  && rm ./chserver.zip \
  && mv ./ChStandaloneServer-* ./chserver \
  && mv ./chserver/linux-x64 ./chserver/linux-x86_64 \
  && mv ./chserver/linux-arm64 ./chserver/linux-aarch64 \
+ && mv ./chserver/linux-arm ./chserver/linux-armv7l \
  && mv ./chserver/linux-$(arch)/* . \
  && rm -rf ./chserver \
  && chmod +x ./Server \
