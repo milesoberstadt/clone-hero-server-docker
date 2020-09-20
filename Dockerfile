@@ -41,5 +41,5 @@ USER clonehero
 
 WORKDIR /usr/src/config
 
-EXPOSE 14242
+EXPOSE 14242/udp
 ENTRYPOINT ["../Server"]
