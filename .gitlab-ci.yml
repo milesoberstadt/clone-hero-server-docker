@@ -11,6 +11,7 @@ stages:
 
 build:
     stage: build
+    timeout: 25 minutes
     before_script:
         - docker buildx create --use
         - "update-binfmts --enable"
