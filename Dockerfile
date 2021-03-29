@@ -8,7 +8,7 @@ WORKDIR /clonehero
 ARG BRANCH=test
 ARG VERSION
 RUN if [ -z ${VERSION+x} ]; then VERSION=$(curl -s "https://dl$BRANCH.b-cdn.net/linux-index.json" | jq -r .[0].version | sed "s/v0/v/"); fi \
- && wget -O chserver.zip https://dl.clonehero.net/chserver/ChStandaloneServer-$VERSION.zip \
+ && wget -O chserver.zip https://pubdl.clonehero.net/chserver/ChStandaloneServer-$VERSION.zip \
  && unzip chserver.zip \
  && rm ./chserver.zip \
  && mv ./ChStandaloneServer-* ./chserver \
