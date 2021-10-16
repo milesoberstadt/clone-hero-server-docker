@@ -28,7 +28,7 @@ RUN if [ -z ${VERSION+x} ]; then VERSION=$(curl -s "https://dl$BRANCH.b-cdn.net/
 FROM debian:buster-slim
 
 RUN apt-get update \
- && apt-get install --no-install-recommends -y ca-certificates libicu63 \
+ && apt-get install --no-install-recommends -y ca-certificates libicu63 libgssapi-krb5-2 \
  && rm -rf /var/lib/apt/lists/* \
  && ln -sf /usr/src/clonehero/Server /usr/bin/cloneheroserver \
  && useradd -m clonehero
