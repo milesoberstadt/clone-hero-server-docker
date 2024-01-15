@@ -16,6 +16,8 @@ jobs:
           - linux/amd64
           - linux/arm64/v8
           - linux/arm/v7
+    outputs:
+      version: ${{ steps.version.outputs.VERSION }}
     steps:
       - name: Prepare
         run: |
@@ -23,9 +25,10 @@ jobs:
           echo "PLATFORM_PAIR=${platform//\//-}" >> $GITHUB_ENV
 
       - name: Get version
+        id: version
         run: |
           sudo apt-get update; sudo apt-get install --no-install-recommends -y ca-certificates jq
-          echo "VERSION=$(curl -s "https://api.github.com/repos/clonehero-game/releases/releases" | jq -r 'map(select(.prerelease == false)) | map(select(.draft == false)) | .[0].name')"
+          echo "VERSION=$(curl -s "https://api.github.com/repos/clonehero-game/releases/releases" | jq -r 'map(select(.prerelease == false)) | map(select(.draft == false)) | .[0].name')" >> "$GITHUB_ENV"
 
       - name: Check out the repo
         uses: actions/checkout@v4
