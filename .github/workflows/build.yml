@@ -54,7 +54,7 @@ jobs:
         with:
           context: .
           platforms: ${{ matrix.platform }}
-          tags: ${{ env.REGISTRY_IMAGE }}:latest
+          tags: overcoded/clone-hero-server:latest
           build-args: |
             VERSION=${{ env.VERSION }}
           #labels: ${{ steps.meta.outputs.labels }}
