@@ -9,6 +9,7 @@ jobs:
   build:
     name: Build Docker image and Push to Docker Hub
     runs-on: ubuntu-latest
+    environment: Build
     strategy:
       matrix:
         platform:
@@ -70,6 +71,7 @@ jobs:
 
   merge:
     runs-on: ubuntu-latest
+    environment: Build
     needs: 
       - build
     steps:
