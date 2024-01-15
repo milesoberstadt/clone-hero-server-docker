@@ -6,14 +6,15 @@ RUN apt-get update \
  && rm -rf /var/lib/apt/lists/* \
  && mkdir config
 
-ARG BRANCH=test
+#ARG BRANCH=test
 ARG VERSION
 
 COPY ./startup.sh .
 COPY ./server-settings.ini ./config/
 
-RUN if [ -z ${VERSION+x} ]; then VERSION=$(curl -s "https://dl$BRANCH.b-cdn.net/linux-index.json" | jq -r .[0].version | sed "s/v0/v/"); fi \
- && wget -qO chserver.zip https://pubdl.clonehero.net/chserver/ChStandaloneServer-$VERSION.zip \
+# TODO: apply BRANCH to this
+RUN if [ -z ${VERSION+x} ]; then VERSION=$(curl -s "https://api.github.com/repos/clonehero-game/releases/releases" | jq -r 'map(select(.prerelease == false)) | map(select(.draft == false)) | .[0].name' ); fi \
+    && wget -qO chserver.zip https://github.com/clonehero-game/releases/releases/download/$VERSION/CloneHero-standalone_server.zip \
  && unzip chserver.zip \
  && rm ./chserver.zip \
  && mv ./ChStandaloneServer-* ./chserver \
