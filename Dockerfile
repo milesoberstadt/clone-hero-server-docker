@@ -15,6 +15,7 @@ COPY ./server-settings.ini ./config/
 # TODO: apply BRANCH to this
 # RUN if [ -z ${VERSION+x} ]; then VERSION=$(curl -s "https://api.github.com/repos/clonehero-game/releases/releases" | jq -r 'map(select(.prerelease == false)) | map(select(.draft == false)) | .[0].name' ); fi \
 #  && curl -sL -o chserver.zip https://github.com/clonehero-game/releases/releases/download/$VERSION/CloneHero-standalone_server.zip
+RUN echo "VERSION: $VERSION"
 RUN if [ -z ${VERSION+x} ]; then VERSION=$(curl -sL "https://api.github.com/repos/clonehero-game/releases/releases" | jq -r 'map(select(.prerelease == false)) | map(select(.draft == false)) | .[0].name' ); fi \
  && DOWNLOAD_URL=$(curl -sL "https://api.github.com/repos/clonehero-game/releases/releases" | jq -r "map(select(.name == \"$VERSION\")) | .[0].assets[] | select(.name == \"CloneHero-standalone_server.zip\") | .browser_download_url") \
  && curl -sL -o chserver.zip ${DOWNLOAD_URL}
