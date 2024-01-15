@@ -2,7 +2,7 @@ FROM debian:buster-slim AS build-env
 ENV DEBIAN_FRONTEND=noninteractive
 WORKDIR /clonehero
 RUN apt-get update \
- && apt-get install --no-install-recommends -y ca-certificates wget unzip curl jq libicu63 \
+ && apt-get install --no-install-recommends -y ca-certificates unzip curl jq libicu63 \
  && rm -rf /var/lib/apt/lists/* \
  && mkdir config
 
@@ -14,7 +14,8 @@ COPY ./server-settings.ini ./config/
 
 # TODO: apply BRANCH to this
 RUN if [ -z ${VERSION+x} ]; then VERSION=$(curl -s "https://api.github.com/repos/clonehero-game/releases/releases" | jq -r 'map(select(.prerelease == false)) | map(select(.draft == false)) | .[0].name' ); fi
-RUN wget -qO chserver.zip https://github.com/clonehero-game/releases/releases/download/$VERSION/CloneHero-standalone_server.zip
+RUN DOWNLOAD_URL=$(curl -sL -o chserver.zip https://github.com/clonehero-game/releases/releases/download/$VERSION/CloneHero-standalone_server.zip)
+RUN curl -sL -o chserver.zip ${DOWNLOAD_URL}
 RUN unzip chserver.zip \
  && rm ./chserver.zip \
  && mv ./ChStandaloneServer-* ./chserver \

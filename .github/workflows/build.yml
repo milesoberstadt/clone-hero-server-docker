@@ -28,7 +28,7 @@ jobs:
         id: version
         run: |
           sudo apt-get update; sudo apt-get install --no-install-recommends -y ca-certificates jq
-          echo "VERSION=$(curl -s "https://api.github.com/repos/clonehero-game/releases/releases" | jq -r 'map(select(.prerelease == false)) | map(select(.draft == false)) | .[0].name | ascii_downcase')" >> "$GITHUB_ENV"
+          echo "VERSION=$(curl -sL "https://api.github.com/repos/clonehero-game/releases/releases" | jq -r 'map(select(.prerelease == false)) | map(select(.draft == false)) | .[0].name | ascii_downcase')" >> "$GITHUB_ENV"
 
       - name: Check out the repo
         uses: actions/checkout@v4
